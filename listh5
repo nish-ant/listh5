@@ -1,0 +1,3 @@
+#!/bin/bash
+# Replace below with: python <path-to-listh5.py> $@
+python $HOME/Downloads/listh5/listh5.py $@
