@@ -5,16 +5,13 @@
 
 @task: Function to list hdf5 file keys
 
-Include in .local/bin:
-    #!/bin/bash
-    python3 $HOME/Documents/codes/libtool/listh5.py $@
 """
 
 import h5py
+import scipy.io as sio
 import getopt
 import sys
 import os
-import scipy.io as sio
 
 def read_hdf5(path, saflag):
     keys = []
@@ -48,15 +45,14 @@ def read_mat(path, saflag):
         read_hdf5(path, saflag)
     except:
         ValueError('File not readable')
-        
+    #
     if ismat:
         for key in dset.keys():
             if key[0] != '_':
                 if not saflag:
                     print(key)
                 else:
-                    print("{0} : {1}".format(key, dset[key].shape))
-                    
+                    print("{0} : {1}".format(key, dset[key].shape))                    
     return None
     
 #-----------------------------------------------------------------------
