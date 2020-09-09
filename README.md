@@ -1,6 +1,8 @@
 # listh5
 Python script to list hdf5 file keys
 
+Also supports mat files (-7+)
+
 ### Installation (Optional)
 1. Clone the repository in a local directory.
 2. Open `listh5` with a text editor and change the path to the script.
@@ -17,7 +19,7 @@ To run without the shell script, replace `listh5` with `python listh5.py` in the
 ```
 Help: listh5 -h
 Usage: listh5 [filename] -h -n -d=[datsetname] -s=[datsetname] -v 
-     -h,--help      Display help
+         -h,--help      Display help
 	 -n,--nolist		Disable listing of datasets
 	 -d=?,--display=?	Print contents of passed 'datasetname'
 	 -s=?,--shape=?		Print shape of passed 'datasetname'

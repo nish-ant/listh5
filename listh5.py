@@ -14,6 +14,7 @@ import h5py
 import getopt
 import sys
 import os
+import scipy.io as sio
 
 def read_hdf5(path, saflag):
     keys = []
@@ -28,15 +29,36 @@ def read_hdf5(path, saflag):
                 is_grp = True
                 is_dataset = False
             if is_dataset:
-                if not saflag:
-                    print(kstr)
-                else:
-                    dset = hf[kstr][()]
-                    shp = dset.shape
-                    sstr = shp if len(shp)>0 else "1 (scalar)"
-                    print("{0} : {1}".format(kstr, sstr))
+                if kstr[0] != '_':
+                    if not saflag:
+                        print(kstr)
+                    else:
+                        dset = hf[kstr][()]
+                        shp = dset.shape
+                        sstr = shp if len(shp)>0 else "1 (scalar)"
+                        print("{0} : {1}".format(kstr, sstr))
     return None
 
+def read_mat(path, saflag):
+    ismat = False
+    try:
+        dset = sio.loadmat(path)
+        ismat = True
+    except NotImplementedError:
+        read_hdf5(path, saflag)
+    except:
+        ValueError('File not readable')
+        
+    if ismat:
+        for key in dset.keys():
+            if key[0] != '_':
+                if not saflag:
+                    print(key)
+                else:
+                    print("{0} : {1}".format(key, dset[key].shape))
+                    
+    return None
+    
 #-----------------------------------------------------------------------
 # Additional functionality
 fullCmdArgs = sys.argv
@@ -48,11 +70,16 @@ saflag = False
 lflag = True
 fpath = fullCmdArgs[1]      #; print(fpath)
 argList = fullCmdArgs[2:]   #; print(argList)
-hflag = True if fullCmdArgs[1] in ("-h", "--help") else False
 
-# TO TEST - Comment previous assignments
-# fpath = "file:///home...h5"
-# argList = ['-n', '--sa']
+# Help
+hflag = False
+if len(fullCmdArgs) > 1:
+    if fullCmdArgs[1] in ("-h", "--help"):
+        hflag = True  
+
+# # TO TEST - Comment previous assignments
+# fpath = "file:///home...h5" # 
+# argList = [] # ['-n', '--sa'] # 
 
 unixOptions = "hnd:s:v"
 gnuOptions = ["help", "nolist", "display=", "shape=", "sa", "shapeall", "verbose"]
@@ -101,6 +128,7 @@ if fpath.startswith('file://'):
     fpath = fpath[len('file://'):]
 if not os.path.exists(fpath):
     sys.exit("Error: Unable to open file. No such file or directory.")
+extn = os.path.splitext(fpath)[1]
 #
 # f = h5py.File(fpath, 'r')
 # print("Keys: %s\n" % f.keys())
@@ -109,7 +137,10 @@ if not os.path.exists(fpath):
 # f.close()
 #
 if lflag: 
-    read_hdf5(fpath, saflag)
+    if extn == '.h5':
+        read_hdf5(fpath, saflag)
+    elif extn == '.mat':
+        read_mat(fpath, saflag)
 
 if dflag or sflag:
     # fdat = input("Enter a name dataset: ")
@@ -123,4 +154,7 @@ if dflag or sflag:
         print(datset.shape)
 if saflag:
     if vflag == True: print("Shapes:")
-    read_hdf5(fpath, saflag)
+    if extn == '.h5':
+        read_hdf5(fpath, saflag)
+    elif extn == '.mat':
+        read_mat(fpath, saflag)
