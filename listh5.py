@@ -4,14 +4,13 @@
 @program: listh5.py
 
 @task: Function to list hdf5 file keys
-
 """
 
 import h5py
-import scipy.io as sio
 import getopt
 import sys
 import os
+import scipy.io as sio
 
 def read_hdf5(path, saflag):
     keys = []
@@ -45,14 +44,15 @@ def read_mat(path, saflag):
         read_hdf5(path, saflag)
     except:
         ValueError('File not readable')
-    #
+        
     if ismat:
         for key in dset.keys():
             if key[0] != '_':
                 if not saflag:
                     print(key)
                 else:
-                    print("{0} : {1}".format(key, dset[key].shape))                    
+                    print("{0} : {1}".format(key, dset[key].shape))
+                    
     return None
     
 #-----------------------------------------------------------------------
@@ -125,13 +125,13 @@ if fpath.startswith('file://'):
 if not os.path.exists(fpath):
     sys.exit("Error: Unable to open file. No such file or directory.")
 extn = os.path.splitext(fpath)[1]
-#
+
 # f = h5py.File(fpath, 'r')
 # print("Keys: %s\n" % f.keys())
 # a_group_key = list(f.keys())[0]
 # dset = f['dsetname'][:]
 # f.close()
-#
+
 if lflag: 
     if extn == '.h5':
         read_hdf5(fpath, saflag)
@@ -140,14 +140,19 @@ if lflag:
 
 if dflag or sflag:
     # fdat = input("Enter a name dataset: ")
-    with h5py.File(fpath, 'r') as hf:
-        datset = hf[fdat][()]#[:]
+    if extn == '.h5':
+        with h5py.File(fpath, 'r') as hf:
+            datset = hf[fdat][()]#[:]
+    elif extn == '.mat':
+        datset = sio.loadmat(fpath, variable_names=fdat)
+    #
     if dflag:    
         if vflag == True: print("Contents of "+fdat+" :")
         print(datset)
     elif sflag:    
         if vflag == True: print("Shape of "+fdat+" :")
         print(datset.shape)
+
 if saflag:
     if vflag == True: print("Shapes:")
     if extn == '.h5':
