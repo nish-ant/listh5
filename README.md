@@ -25,7 +25,7 @@ To run without the shell script, replace `listh5` with `python listh5.py` in the
 Help: listh5 -h
 Usage: listh5 [filepath] -h -n -d=[key] -s=[key] -sa -v 
          -h,--help              Display help
-	 -n,--nolist		Disable output of list of keys
+	 -n,--nolist		Disable display of key list
 	 -d=?,--display=?	Value of passed 'key'
 	 -s=?,--shape=?		Shape of passed 'key'
 	 --sa,--shapeall	Shape of all keys

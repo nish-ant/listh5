@@ -3,7 +3,7 @@
 """
 @program: listh5.py
 
-@task: Function to list hdf5 file keys
+@task: Function to list hdf5 and mat file keys
 """
 
 import h5py
@@ -105,14 +105,14 @@ for currentArgument, currentValue in arguments:
         fdat = currentValue[1:]
 
 if hflag:
-    print("Lists hdf5 file keys.")
+    print("Lists hdf5 and mat file keys.")
     print("Help: listh5 -h")
-    print("Usage: listh5 [filename] -h -n -d=[datsetname] -s=[datsetname] -v ")
+    print("Usage: listh5 [filepath] -h -n -d=[key] -s=[key] -sa -v")
     print("\t -h,--help\t\tDisplay help")
-    print("\t -n,--nolist\t\tDisable listing of datasets")
-    print("\t -d=?,--display=?\tPrint contents of passed 'datasetname'")
-    print("\t -s=?,--shape=?\t\tPrint shape of passed 'datasetname'")
-    print("\t --sa,--shapeall\t\tPrint shape of all 'datasetname'")
+    print("\t -n,--nolist\t\tDisable display of key list")
+    print("\t -d=?,--display=?\tValue of passed 'key'")
+    print("\t -s=?,--shape=?\t\tShape of passed 'key'")
+    print("\t --sa,--shapeall\t\tShape of all keys")
     print("\t -v,--verbosity\t\tEnable verbose display")
     sys.exit()
     
