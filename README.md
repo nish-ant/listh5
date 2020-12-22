@@ -31,3 +31,34 @@ Usage: listh5 [filepath] -h -n -d=[key] -s=[key] -sa -v
 	 --sa,--shapeall	Shape of all keys
 	 -v,--verbosity		Enable verbose display
 ```
+
+### Example
+
+```bash
+$ cd example/
+
+$ python makeh5.py
+
+$ listh5 ex_dataset.h5 
+/arrays/A
+/arrays/B
+/scalars/c
+/scalars/d
+
+$ listh5 ex_dataset.h5 -n --sa
+/arrays/A : (2,)
+/arrays/B : (2, 2, 2)
+/scalars/c : 1 (scalar)
+/scalars/d : 1 (scalar)
+
+$ listh5 ex_dataset.h5 -ns=/arrays/B
+(2, 2, 2)
+
+$ listh5 ex_dataset.h5 -nd=/scalars/d
+1.23
+
+$ listh5 ex_dataset.h5 -nv -d=/arrays/A
+Contents of ex_dataset.h5 :
+Contents of /arrays/A :
+[1 2]
+```
