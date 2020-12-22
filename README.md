@@ -37,7 +37,7 @@ Usage: listh5 [filepath] -h -n -d=[key] -s=[key] -sa -v
 ```bash
 $ cd example/
 
-$ python makeh5.py
+$ python ex_makeh5.py
 
 $ listh5 ex_dataset.h5 
 /arrays/A
