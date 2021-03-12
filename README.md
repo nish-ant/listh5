@@ -57,7 +57,7 @@ $ listh5 ex_dataset.h5 -ns=/arrays/B
 $ listh5 ex_dataset.h5 -nd=/scalars/d
 1.23
 
-$ listh5 ex_dataset.h5 -nv -d=/arrays/A
+$ listh5 ex_dataset.h5 -nvd=/arrays/A
 Contents of ex_dataset.h5 :
 Contents of /arrays/A :
 [1 2]

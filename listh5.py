@@ -56,6 +56,10 @@ def read_mat(path, saflag):
     return None
     
 #-----------------------------------------------------------------------
+# Supported extension list 
+h5ExtList = ['.h5','.hdf5']
+matExtList = ['.mat', ]
+
 # Additional functionality
 fullCmdArgs = sys.argv
 hflag = False
@@ -124,7 +128,11 @@ if fpath.startswith('file://'):
     fpath = fpath[len('file://'):]
 if not os.path.exists(fpath):
     sys.exit("Error: Unable to open file. No such file or directory.")
+
+# Check file extension
 extn = os.path.splitext(fpath)[1]
+if extn not in h5ExtList+matExtList:
+    sys.exit("Error: File extension not supported.")
 
 # f = h5py.File(fpath, 'r')
 # print("Keys: %s\n" % f.keys())
@@ -133,17 +141,17 @@ extn = os.path.splitext(fpath)[1]
 # f.close()
 
 if lflag: 
-    if extn == '.h5':
+    if extn in h5ExtList:
         read_hdf5(fpath, saflag)
-    elif extn == '.mat':
+    elif extn in matExtList:
         read_mat(fpath, saflag)
 
 if dflag or sflag:
     # fdat = input("Enter a name dataset: ")
-    if extn == '.h5':
+    if extn in h5ExtList:
         with h5py.File(fpath, 'r') as hf:
             datset = hf[fdat][()]#[:]
-    elif extn == '.mat':
+    elif extn in matExtList:
         datset = sio.loadmat(fpath, variable_names=fdat)
     #
     if dflag:    
@@ -155,7 +163,7 @@ if dflag or sflag:
 
 if saflag:
     if vflag == True: print("Shapes:")
-    if extn == '.h5':
+    if extn in h5ExtList:
         read_hdf5(fpath, saflag)
-    elif extn == '.mat':
+    elif extn in matExtList:
         read_mat(fpath, saflag)

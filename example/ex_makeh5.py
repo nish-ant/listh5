@@ -14,6 +14,7 @@ B = np.array([[[1, 2], [3, 4]],
               [[5, 6], [7, 8]]])
 c = 42
 d = 1.23
+e = []
 
 with h5py.File('./ex_dataset.h5', 'w') as hf:
     gf1 = hf.create_group('arrays')
@@ -22,3 +23,4 @@ with h5py.File('./ex_dataset.h5', 'w') as hf:
     gf2 = hf.create_group('scalars')
     gf2.create_dataset('c', data=c)
     gf2.create_dataset('d', data=d)
+    gf2.create_dataset('e', data=e)
